@@ -25,10 +25,17 @@ int main()
   }
 
   //2.构建sockaddr_in结构存储地址信息，注意sockaddr_in只能用于IPv4
-  //
+  //地址信息要注意转换为网络字节序
+  //  #include <arpa/inet.h>
+  //  uint32_t htonl(uint32_t hostlong);（对无符号long4个字节转换为网络字节序的顺序）
+  //  uint16_t htons(uint16_t hostshort);（对无符号short2个字节转换为网络字节序的数据)
+  //  uint32_t ntohl(uint32_t netlong);(将4个字节的网络字节序数据转换为当前的主机字节序数据)
+  //  uint16_t ntohs(uint16_t netshort);将一个16位(2个字节)由网络字节序转变为主机字节序
+  //  host to net ...
+  //  net to host ...
   struct sockaddr_in serv_addr;
   socklen_t len = sizeof(serv_addr);
-  serv_addr.sin_port = htons(10000);//端口号  sin_port为无符号短整型2个字节
+  serv_addr.sin_port = htons(10000);//端口号  sin_port为无符号短整型2个字节,
   serv_addr.sin_family = AF_INET;//类型
   serv_addr.sin_addr.s_addr = inet_addr("192.168.184.137");//ip地址  typedef uint32_t in_addr_t 32位无符号整数
   int ret = bind(sockfd,(struct sockaddr*)&serv_addr,len);//倘若绑定，就将绑定的地址作为自己的ip地址和端口号
@@ -50,9 +57,13 @@ int main()
     {
       std::cout<<"no data to recv"<<std::endl;
       return -1;
-    
+
     }
     printf("client[%s %d]say: %s\n",inet_ntoa(cli_addr.sin_addr),ntohs(cli_addr.sin_port),buff);
+    //注意网络字节序转换为主机字节序
+    
+
+
     //4.向客户端发送数据
     memset(buff,0x00,len);
     std::cin >> buff;
