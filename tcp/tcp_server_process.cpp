@@ -37,8 +37,15 @@ int Communication(int newsock)
       char buff[1024] = {0};
 
       int len = recv(newsock , buff , 1024 , 0);
-      if (len <=  0)//recv返回值小于等于0时,释放套接字后退出
+      if (len ==  0)//recv返回值小于等于0时,释放套接字后退出
       {
+        std::cout<<"the opposite is closed"<<std::endl;
+        close(newsock);
+        exit(-1);
+      }
+      else if (len < 0)
+      {
+        std::cout<<"recv error"<<std::endl;
         close(newsock);
         exit(-1);
       }

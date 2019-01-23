@@ -6,7 +6,7 @@
 #include<string.h>
 #include<stdlib.h>
 #include<stdio.h>
-
+#include<signal.h>
 //目标：创建一个简单的tcp聊天客户端
 //
 //1.创建套接字socket
@@ -21,10 +21,10 @@
 //对于接收方来说----recv返回值为0,代表连接断开
 //对于发送方来说----每次调用send都会触发连接断开异常,接收到系统发送的SIGPIPE信号,导致进程退出.
 //如果不想要发送方退出,我们要在程序开始的时候对SIGPIPE做自定义/忽略处理
-void sigcb()
+void sigcb(int signo)
 {
   std::cout<<"the server is stopped"<<std::endl;
-    return ;
+  exit(0);
 }
 int main(int argc , char* argv[])
 {
