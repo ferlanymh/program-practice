@@ -7,6 +7,10 @@ struct TreeNode {
 			val(x), left(NULL), right(NULL) {
 	}
 };*/
+
+
+/*思路：设置一个队列，将根节点入队，
+每次取到一个结点，都看一下他是否有左右结点，如果有，则入队。在将该结点置入result中。*/
 class Solution {
 public:
     vector<int> PrintFromTopToBottom(TreeNode* root) {
