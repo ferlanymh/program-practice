@@ -34,3 +34,51 @@ public:
         return result;
     }
 };
+
+//倘若要将各层的数据分开存放，我们要知道每层数据的个数。
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> result;
+        if (root == nullptr)//empty
+            return result;
+        
+        queue<TreeNode*> q;//put root in queue first
+        q.push(root);
+        
+        while (!q.empty())
+        {
+            vector<int> tmp;
+            tmp.clear();
+            int size = q.size();//put this level's data into tmp
+            
+            while (size--)
+            {
+                TreeNode* top = q.front();
+                tmp.push_back(top->val);
+                
+                if (top->left)
+                    q.push(top->left);
+                if (top->right)
+                    q.push(top->right);
+                
+                q.pop();
+            }
+            
+            //now tmp has all data in this level ,put them in result
+            result.push_back(tmp);
+        }
+        return result;
+        
+    }
+};
