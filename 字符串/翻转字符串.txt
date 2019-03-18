@@ -1,4 +1,4 @@
-//编写一个函数，其作用是将输入的字符串反转过来。
+//题一：   编写一个函数，其作用是将输入的字符串反转过来。
 
     class Solution {
     public:
@@ -7,3 +7,29 @@
             return s;
         }
     };
+	
+	
+//题二： 	
+//  i am a student. 变成student. a am i 
+
+//思路：对整个字符串先逆置，在对每个单词进行逆置即可。
+
+class Solution {
+public:
+    string ReverseSentence(string str) {
+        reverse(str.begin(),str.end());
+        string::iterator begin = str.begin();
+        auto end = begin;
+        while (begin < str.end())
+        {
+            while (end < str.end() && *end != ' ')
+                end++;
+            
+            reverse(begin,end);
+            end++;
+            begin = end;
+        }
+        return str;
+    }
+};
+
